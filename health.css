@@ -1,0 +1,366 @@
+/* General Styling & Reset */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    /* Purple background for the main body */
+    background-color: #794bc4;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- Base Containers --- */
+.screen {
+    width: 100%;
+    max-width: 450px; /* Max width for both login and app card */
+    margin: 20px;
+    box-sizing: border-box;
+}
+.hidden {
+    display: none !important;
+}
+
+/* --- Login Card --- */
+.login-card {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    text-align: center;
+}
+
+.login-card h1 {
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.login-card .subtitle {
+    margin-bottom: 25px;
+    color: #666;
+    font-weight: 500;
+}
+
+/* --- Buttons (Shared Styles) --- */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-google {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-google:hover {
+    background-color: #f0f0f0;
+}
+
+.btn-phone {
+    background-color: #1a73e8;
+    color: #fff;
+    margin-top: 5px; /* Adjusting margin for input group */
+}
+.btn-phone:hover {
+    background-color: #145cb5;
+}
+
+.btn-guest {
+    background-color: #e0e0e0;
+    color: #333;
+}
+.btn-guest:hover {
+    background-color: #ccc;
+}
+
+.btn-primary {
+    /* Style for Analyze Health button */
+    background: linear-gradient(135deg, #794bc4, #5d359a);
+    color: #fff;
+    margin-top: 25px;
+    font-size: 18px;
+    padding: 15px;
+}
+.btn-primary:hover {
+    background: linear-gradient(135deg, #5d359a, #472b7a);
+}
+
+
+/* --- Inputs & Groups --- */
+.input-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.login-card input[type="text"],
+.login-card input[type="password"] {
+    padding: 12px;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* For small screens, stack the inputs */
+@media (max-width: 450px) {
+    .input-group input {
+        width: 100% !important; /* Forces stacking */
+    }
+}
+
+.divider {
+    margin: 20px 0;
+    border-bottom: 1px solid #eee;
+    line-height: 0.1em;
+    text-align: center;
+}
+.divider span {
+    background: #fff;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #999;
+    font-weight: 600;
+}
+
+
+/* --- Main App Card (Health Assistant) --- */
+.app-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    overflow: hidden;
+}
+
+.app-header {
+    background: linear-gradient(90deg, #6c5ce7, #4b7bec); /* Blue-Purple Gradient */
+    color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.header-icon {
+    height: 30px;
+    width: 30px;
+}
+.guest-user-tag {
+    font-size: 0.9rem;
+    font-weight: 500;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.logout-btn {
+    background: #fff;
+    color: #4b7bec;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.logout-btn:hover {
+    background: #f0f0f0;
+}
+
+/* --- Navigation Tabs --- */
+.nav-tabs {
+    display: flex;
+    padding: 15px 20px 0;
+    border-bottom: 1px solid #eee;
+}
+.nav-tab {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    color: #666;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s;
+    margin-right: 15px;
+    position: relative;
+}
+.nav-tab:hover {
+    color: #794bc4;
+}
+.nav-tab.active {
+    color: #794bc4;
+}
+.nav-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #794bc4;
+    border-radius: 2px 2px 0 0;
+}
+
+/* --- Form Section --- */
+.form-section {
+    padding: 20px;
+}
+.form-section h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 0;
+    color: #333;
+}
+.form-section label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+.form-section textarea,
+.form-section input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 16px;
+}
+
+
+/* --- Analysis Output --- */
+.analysis-output {
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-top: 1px solid #eee;
+}
+
+/* Common Card Style for Analysis Sections */
+.analysis-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.analysis-card .card-header {
+    background-color: #794bc4;
+    color: #fff;
+    padding: 10px 15px;
+    margin: -15px -15px 15px -15px; /* Extends background to card edges */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Specific Card Styles (Matching Screenshot) */
+/* Preliminary Analysis */
+.preliminary-card {
+    border: 1px solid #d4c5f3; /* Light purple border */
+}
+.preliminary-card .card-header {
+    background-color: #794bc4;
+}
+
+/* Medicine Suggestions */
+.medicine-card {
+    border: 1px solid #ff7f7f; /* Light red border */
+}
+.medicine-card .card-header {
+    background-color: #ff5757; /* Red/Pink for medicine */
+}
+
+/* New: Diet Suggestions (GREEN) */
+.diet-card {
+    border: 1px solid #90ee90; /* Light green border */
+}
+.diet-card .card-header {
+    background-color: #4CAF50; /* Green for diet/food */
+}
+
+/* Important Disclaimer */
+.disclaimer-card {
+    background-color: #fff3cd; /* Yellow background */
+    border-left: 5px solid #ffc107;
+    color: #856404;
+    padding: 15px;
+}
+.disclaimer-card .card-header {
+    background-color: transparent;
+    color: #856404;
+    padding: 0;
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+}
+.disclaimer-card p {
+    font-size: 0.9rem;
+    margin: 0;
+}
+.disclaimer-card strong {
+    font-weight: 600;
+}
+
+/* Content Styles */
+.analysis-card strong {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #444;
+}
+/* Style for list within analysis cards */
+.analysis-card ul {
+    list-style-type: disc;
+    margin: 5px 0 0 20px;
+    padding: 0;
+    font-size: 0.95rem;
+    color: #555;
+}
+.analysis-card ul li {
+    margin-bottom: 3px;
+}
+.analysis-card p {
+    font-size: 0.95rem;
+    color: #555;
+    margin: 0;
+}
