@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dr. Nageshwar Health Assistant</title>
+    <title>Firoz Shaik Health Assistant</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -441,6 +441,97 @@
         }
         .scan-btn-group button:hover { opacity: 0.9; }
 
+        /* ── MY HEALTH TAB ── */
+        .my-health-section { margin-bottom: 24px; }
+        .my-health-section h4 {
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px; font-weight: 800;
+            color: var(--text); margin-bottom: 12px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .record-card {
+            background: #fff; border-radius: 12px;
+            padding: 14px 16px; margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--primary);
+            display: flex; justify-content: space-between; align-items: flex-start;
+            animation: fadeIn 0.3s ease;
+        }
+        .record-card.medicine-entry { border-left-color: #ff5757; }
+        .record-card .record-info { flex: 1; }
+        .record-card .record-title { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 3px; }
+        .record-card .record-meta  { font-size: 12px; color: var(--muted); }
+        .record-card .record-actions { display: flex; gap: 6px; flex-shrink: 0; margin-left: 10px; }
+        .icon-btn {
+            background: none; border: none; cursor: pointer;
+            font-size: 16px; padding: 4px 6px; border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .icon-btn:hover { background: var(--bg); }
+        .empty-state {
+            text-align: center; padding: 24px 16px;
+            color: var(--muted); font-size: 14px;
+            background: var(--bg); border-radius: 12px;
+        }
+        .empty-state .empty-icon { font-size: 36px; margin-bottom: 8px; display: block; }
+        .add-form {
+            background: var(--bg); border-radius: 12px;
+            padding: 16px; margin-bottom: 16px;
+            display: none; animation: fadeIn 0.3s ease;
+        }
+        .add-form.open { display: block; }
+        .add-form input, .add-form select, .add-form textarea {
+            width: 100%; padding: 10px 12px; margin-bottom: 10px;
+            border: 1.5px solid var(--border); border-radius: 10px;
+            font-family: 'DM Sans', sans-serif; font-size: 14px;
+            outline: none; transition: border-color 0.2s; background: #fff;
+        }
+        .add-form input:focus, .add-form select:focus { border-color: var(--primary); }
+        .form-row { display: flex; gap: 8px; }
+        .form-row input, .form-row select { flex: 1; margin-bottom: 10px; }
+        .add-form-btns { display: flex; gap: 8px; }
+        .btn-save {
+            flex: 1; padding: 10px; border: none; border-radius: 10px;
+            background: var(--gradient); color: white;
+            font-weight: 700; font-size: 14px; cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .btn-cancel {
+            padding: 10px 16px; border: none; border-radius: 10px;
+            background: #e5e7eb; color: var(--text);
+            font-weight: 600; font-size: 14px; cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .btn-add-new {
+            width: 100%; padding: 11px; border: 2px dashed var(--primary);
+            background: transparent; border-radius: 10px;
+            color: var(--primary); font-weight: 700; font-size: 14px;
+            cursor: pointer; font-family: 'DM Sans', sans-serif;
+            transition: background 0.2s;
+        }
+        .btn-add-new:hover { background: var(--bg); }
+        .med-badge {
+            display: inline-block; padding: 2px 8px; border-radius: 20px;
+            font-size: 11px; font-weight: 700; margin-top: 4px;
+        }
+        .med-badge.morning   { background: #fef3c7; color: #92400e; }
+        .med-badge.afternoon { background: #dbeafe; color: #1e40af; }
+        .med-badge.evening   { background: #ede9fe; color: #5b21b6; }
+        .med-badge.night     { background: #1e293b; color: #e2e8f0; }
+        .tab-sub {
+            display: flex; gap: 0; margin-bottom: 18px;
+            background: var(--bg); border-radius: 10px; padding: 4px;
+        }
+        .tab-sub-btn {
+            flex: 1; padding: 9px 6px; border: none; background: transparent;
+            border-radius: 8px; font-weight: 600; font-size: 13px;
+            cursor: pointer; font-family: 'DM Sans', sans-serif;
+            color: var(--muted); transition: all 0.2s;
+        }
+        .tab-sub-btn.active { background: #fff; color: var(--primary); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .sub-panel { display: none; }
+        .sub-panel.active { display: block; }
+
         #permission-alert {
             display: none;
             background: #fffae6;
@@ -460,7 +551,7 @@
     <div class="login-card">
         <span class="login-logo">⚕️</span>
         <h1>Health Assistant</h1>
-        <p class="subtitle">Dr. Nageshwar's Personal Healthcare Companion</p>
+        <p class="subtitle">Firoz Shaik's Personal Healthcare Companion</p>
 
         <button class="btn-gradient" onclick="loginWithGoogle()">
             <span class="icon">🔵</span> Continue with Google
@@ -509,6 +600,7 @@
         <div class="nav-tab" onclick="switchTab('injury-scan', this)">📷 Scan</div>
         <div class="nav-tab" onclick="switchTab('emergency', this)">🚨 Emergency</div>
         <div class="nav-tab" onclick="switchTab('hospital-finder', this)">🏥 Hospitals</div>
+        <div class="nav-tab" onclick="switchTab('my-health', this)">📋 My Health</div>
     </div>
 
     <!-- HEALTH TAB -->
@@ -574,9 +666,9 @@
         </p>
 
         <div class="result-card card-purple">
-            <h3>Contact Dr. Nageshwar</h3>
+            <h3>Contact Firoz Shaik</h3>
             <p>For urgent consultation, message the doctor directly via WhatsApp. Please describe your emergency clearly.</p>
-            <button class="btn-whatsapp" onclick="sendWhatsAppMessage()">💬 WhatsApp Dr. Nageshwar</button>
+            <button class="btn-whatsapp" onclick="sendWhatsAppMessage()">💬 WhatsApp Firoz Shaik</button>
         </div>
 
         <div class="result-card" style="border-left-color: #1a73e8; background: #e8f0fe;">
@@ -607,6 +699,110 @@
         <div id="hospital-results" style="margin-top: 16px;"></div>
     </div>
 
+    <!-- MY HEALTH TAB -->
+    <div id="my-health" class="tab-content">
+
+        <!-- Sub-tabs -->
+        <div class="tab-sub">
+            <button class="tab-sub-btn active" onclick="switchSubTab('records-panel', this)">📋 Medical Records</button>
+            <button class="tab-sub-btn" onclick="switchSubTab('medicines-panel', this)">💊 Medicine Reminders</button>
+        </div>
+
+        <!-- ── MEDICAL RECORDS PANEL ── -->
+        <div id="records-panel" class="sub-panel active">
+            <div class="my-health-section">
+                <h4>📋 My Medical Records</h4>
+
+                <!-- Add record form -->
+                <div id="record-form" class="add-form">
+                    <input type="text" id="rec-title" placeholder="Record title (e.g. Blood Test, X-Ray, Prescription)">
+                    <div class="form-row">
+                        <input type="date" id="rec-date">
+                        <select id="rec-type">
+                            <option value="Test">Lab Test</option>
+                            <option value="Prescription">Prescription</option>
+                            <option value="Scan">Scan / X-Ray</option>
+                            <option value="Surgery">Surgery</option>
+                            <option value="Vaccination">Vaccination</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <input type="text" id="rec-doctor" placeholder="Doctor / Hospital name (optional)">
+                    <textarea id="rec-notes" rows="2" placeholder="Notes, findings or diagnosis..."></textarea>
+                    <div class="add-form-btns">
+                        <button class="btn-save" onclick="saveRecord()">💾 Save Record</button>
+                        <button class="btn-cancel" onclick="toggleForm('record-form')">Cancel</button>
+                    </div>
+                </div>
+
+                <button class="btn-add-new" onclick="toggleForm('record-form')">＋ Add Medical Record</button>
+                <div id="records-list" style="margin-top: 14px;"></div>
+            </div>
+        </div>
+
+        <!-- ── MEDICINE REMINDERS PANEL ── -->
+        <div id="medicines-panel" class="sub-panel">
+            <div class="my-health-section">
+                <h4>💊 Medicine Reminders</h4>
+
+                <!-- Alarm permission banner -->
+                <div id="alarm-permission-banner" style="display:none; background:#ede9fe; border-left:4px solid #794bc4; border-radius:10px; padding:12px 14px; margin-bottom:14px; font-size:13px; color:#4c1d95;">
+                    🔔 <strong>Enable notifications</strong> so alarms work even when the app is in background.
+                    <button onclick="requestNotifPermission()" style="margin-left:10px; padding:5px 12px; background:#794bc4; color:#fff; border:none; border-radius:7px; font-size:12px; font-weight:700; cursor:pointer;">Allow</button>
+                </div>
+
+                <!-- Add medicine form -->
+                <div id="medicine-form" class="add-form">
+                    <input type="text" id="med-name" placeholder="Medicine name (e.g. Dolo 650, Metformin)">
+                    <div class="form-row">
+                        <input type="text" id="med-dose" placeholder="Dosage (e.g. 500mg, 1 tablet)">
+                        <select id="med-time">
+                            <option value="morning">🌅 Morning</option>
+                            <option value="afternoon">🌞 Afternoon</option>
+                            <option value="evening">🌆 Evening</option>
+                            <option value="night">🌙 Night</option>
+                        </select>
+                    </div>
+                    <!-- Exact alarm time -->
+                    <label style="font-size:13px; font-weight:600; color:#555; display:block; margin-bottom:6px;">⏰ Alarm Time <span style="font-weight:400; color:#aaa;">(exact time to ring)</span></label>
+                    <input type="time" id="med-alarm-time" style="margin-bottom:10px;">
+                    <div class="form-row">
+                        <input type="date" id="med-start" placeholder="Start date">
+                        <input type="date" id="med-end" placeholder="End date (optional)">
+                    </div>
+                    <input type="text" id="med-instructions" placeholder="Instructions (e.g. After food, With water)">
+                    <div class="add-form-btns">
+                        <button class="btn-save" onclick="saveMedicine()">💾 Save Reminder</button>
+                        <button class="btn-cancel" onclick="toggleForm('medicine-form')">Cancel</button>
+                    </div>
+                </div>
+
+                <button class="btn-add-new" onclick="toggleForm('medicine-form')">＋ Add Medicine Reminder</button>
+
+                <!-- Today's reminders summary -->
+                <div id="today-reminders" style="margin-top: 14px;"></div>
+                <div id="medicines-list" style="margin-top: 10px;"></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ALARM POPUP MODAL -->
+<div id="alarm-modal" style="display:none; position:fixed; z-index:999; inset:0; background:rgba(0,0,0,0.65); align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:20px; padding:30px 24px; max-width:340px; width:90%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation:slideUp 0.3s ease;">
+        <div id="alarm-ring-icon" style="font-size:56px; margin-bottom:10px; animation:ringBell 0.5s infinite alternate;">🔔</div>
+        <h2 style="font-family:'Nunito',sans-serif; font-size:20px; font-weight:800; color:#2d2d3a; margin-bottom:6px;">Medicine Time!</h2>
+        <p id="alarm-medicine-name" style="font-size:16px; font-weight:700; color:#794bc4; margin-bottom:4px;"></p>
+        <p id="alarm-medicine-info" style="font-size:13px; color:#6b7280; margin-bottom:20px;"></p>
+        <button onclick="dismissAlarm()" style="width:100%; padding:13px; background:linear-gradient(135deg,#4d90f1,#794bc4); color:#fff; border:none; border-radius:12px; font-size:15px; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif;">
+            ✅ Got it — I'll take it now
+        </button>
+        <button onclick="snoozeAlarm()" style="width:100%; padding:11px; background:#f3f4f6; color:#374151; border:none; border-radius:12px; font-size:14px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; margin-top:8px;">
+            ⏰ Snooze 10 minutes
+        </button>
+    </div>
 </div>
 
 <!-- PERMISSIONS MODAL -->
@@ -861,6 +1057,7 @@
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         btn.classList.add('active');
+        if (tabId === 'my-health') { renderRecords(); renderMedicines(); }
 
         if (tabId !== 'injury-scan' && stream) {
             stream.getTracks().forEach(t => t.stop());
@@ -904,7 +1101,7 @@ Provide detailed diet recommendations — what to eat, what to avoid, and hydrat
 2-3 brief recovery lifestyle suggestions.
 
 ## ⚠️ Important Disclaimer
-Remind the user this is AI guidance only and to consult Dr. Nageshwar or a qualified doctor. Keep it brief.
+Remind the user this is AI guidance only and to consult Firoz Shaik or a qualified doctor. Keep it brief.
 
 Keep the language simple, clear, and compassionate. Format cleanly.`;
 
@@ -915,9 +1112,9 @@ Keep the language simple, clear, and compassionate. Format cleanly.`;
             // Add WhatsApp button
             resultsDiv.innerHTML += `
                 <div class="disclaimer-card">
-                    <h3>💬 Consult Dr. Nageshwar</h3>
-                    <p>For personalised advice or if symptoms worsen, contact Dr. Nageshwar directly via WhatsApp.</p>
-                    <button class="btn-whatsapp" onclick="sendWhatsAppMessage()">💬 Message Dr. Nageshwar</button>
+                    <h3>💬 Consult Firoz Shaik</h3>
+                    <p>For personalised advice or if symptoms worsen, contact Firoz Shaik directly via WhatsApp.</p>
+                    <button class="btn-whatsapp" onclick="sendWhatsAppMessage()">💬 Message Firoz Shaik</button>
                 </div>`;
         } catch (err) {
             resultsDiv.innerHTML = `<div class="result-card card-red"><h3>⚠️ Error</h3><p>${err.message}</p><p>Please check your internet connection and try again.</p></div>`;
@@ -952,7 +1149,7 @@ Keep it concise, clear, and actionable. This is a life situation — be direct a
         try {
             const resp = await callGroq([{ role: 'user', content: prompt }]);
             div.innerHTML = parseToHTML(resp);
-            div.innerHTML += `<button class="btn-whatsapp" onclick="sendWhatsAppMessage()" style="margin-top:4px;">💬 WhatsApp Dr. Nageshwar Now</button>`;
+            div.innerHTML += `<button class="btn-whatsapp" onclick="sendWhatsAppMessage()" style="margin-top:4px;">💬 WhatsApp Firoz Shaik Now</button>`;
         } catch (err) {
             div.innerHTML = `<div class="result-card card-red"><h3>⚠️ Error</h3><p>${err.message}</p></div>`;
         }
@@ -1026,7 +1223,7 @@ Be concise, clear, and avoid alarming language unnecessarily.`;
         try {
             const response = await callGroqVision(imageData, prompt);
             scanDiv.innerHTML = `<img src="${imageData}" style="width:100%; border-radius:12px; margin-bottom:14px; display:block;">` + parseToHTML(response);
-            scanDiv.innerHTML += `<button class="btn-whatsapp" onclick="sendWhatsAppMessage()" style="margin-top:4px;">💬 Message Dr. Nageshwar</button>`;
+            scanDiv.innerHTML += `<button class="btn-whatsapp" onclick="sendWhatsAppMessage()" style="margin-top:4px;">💬 Message Firoz Shaik</button>`;
         } catch (err) {
             // Fallback to text-only analysis if vision fails
             try {
@@ -1037,7 +1234,7 @@ Be concise, clear, and avoid alarming language unnecessarily.`;
                 scanDiv.innerHTML = `<img src="${imageData}" style="width:100%; border-radius:12px; margin-bottom:14px; display:block;">
                     <div class="result-card card-yellow"><p>⚠️ Vision analysis unavailable — showing general guidance for ${bodyPart} injuries.</p></div>`
                     + parseToHTML(fallback);
-                scanDiv.innerHTML += `<button class="btn-whatsapp" onclick="sendWhatsAppMessage()" style="margin-top:4px;">💬 Message Dr. Nageshwar</button>`;
+                scanDiv.innerHTML += `<button class="btn-whatsapp" onclick="sendWhatsAppMessage()" style="margin-top:4px;">💬 Message Firoz Shaik</button>`;
             } catch (err2) {
                 scanDiv.innerHTML = `<img src="${imageData}" style="width:100%; border-radius:12px; margin-bottom:14px; display:block;"><div class="result-card card-red"><h3>⚠️ Error</h3><p>${err2.message}</p></div>`;
             }
@@ -1048,7 +1245,7 @@ Be concise, clear, and avoid alarming language unnecessarily.`;
     function sendWhatsAppMessage() {
         const name    = currentUser ? (currentUser.name || 'User') : 'User';
         const contact = currentUser?.type === 'phone' ? currentUser.phone : 'Not provided';
-        const msg = `🚨 MEDICAL ASSISTANCE REQUEST 🚨\n\nHello Dr. Nageshwar,\n\nI am ${name} and I need medical consultation.\n${contact !== 'Not provided' ? '📞 Contact: ' + contact : ''}\n\nPlease let me know your availability.\n\nSent from Health Assistant App`;
+        const msg = `🚨 MEDICAL ASSISTANCE REQUEST 🚨\n\nHello Firoz Shaik,\n\nI am ${name} and I need medical consultation.\n${contact !== 'Not provided' ? '📞 Contact: ' + contact : ''}\n\nPlease let me know your availability.\n\nSent from Health Assistant App`;
         window.open('https://wa.me/919948123244?text=' + encodeURIComponent(msg), '_blank');
     }
 
@@ -1077,6 +1274,351 @@ Be concise, clear, and avoid alarming language unnecessarily.`;
             );
         } else { openMaps(null, null); }
     }
+
+    // ─── MY HEALTH: HELPERS ──────────────────────────────────────────────────
+    function switchSubTab(panelId, btn) {
+        document.querySelectorAll('.sub-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-sub-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(panelId).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    function toggleForm(formId) {
+        const f = document.getElementById(formId);
+        f.classList.toggle('open');
+        // Pre-fill today's date when opening
+        if (f.classList.contains('open')) {
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = f.querySelector('input[type="date"]');
+            if (dateInput && !dateInput.value) dateInput.value = today;
+        }
+    }
+
+    function getRecords()   { return JSON.parse(localStorage.getItem('healthRecords')   || '[]'); }
+    function getMedicines() { return JSON.parse(localStorage.getItem('medicinReminders') || '[]'); }
+    function saveRecords(data)   { localStorage.setItem('healthRecords',    JSON.stringify(data)); }
+    function saveMedicines(data) { localStorage.setItem('medicinReminders', JSON.stringify(data)); }
+
+    // ─── MEDICAL RECORDS ──────────────────────────────────────────────────────
+    function saveRecord() {
+        const title  = document.getElementById('rec-title').value.trim();
+        const date   = document.getElementById('rec-date').value;
+        const type   = document.getElementById('rec-type').value;
+        const doctor = document.getElementById('rec-doctor').value.trim();
+        const notes  = document.getElementById('rec-notes').value.trim();
+        if (!title) { alert('Please enter a record title.'); return; }
+
+        const records = getRecords();
+        records.unshift({ id: Date.now(), title, date: date || new Date().toISOString().split('T')[0], type, doctor, notes });
+        saveRecords(records);
+
+        // reset form
+        ['rec-title','rec-date','rec-doctor','rec-notes'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('rec-type').selectedIndex = 0;
+        document.getElementById('record-form').classList.remove('open');
+        renderRecords();
+    }
+
+    function deleteRecord(id) {
+        if (!confirm('Delete this record?')) return;
+        saveRecords(getRecords().filter(r => r.id !== id));
+        renderRecords();
+    }
+
+    const typeIcons = { Test:'🧪', Prescription:'📄', Scan:'🩻', Surgery:'🔪', Vaccination:'💉', Other:'📁' };
+
+    function renderRecords() {
+        const list = document.getElementById('records-list');
+        const records = getRecords();
+        if (!records.length) {
+            list.innerHTML = `<div class="empty-state"><span class="empty-icon">📋</span>No records yet.<br>Add your first medical record above.</div>`;
+            return;
+        }
+        list.innerHTML = records.map(r => `
+            <div class="record-card">
+                <div class="record-info">
+                    <div class="record-title">${typeIcons[r.type] || '📁'} ${r.title}</div>
+                    <div class="record-meta">
+                        ${r.date ? '📅 ' + r.date : ''} 
+                        ${r.type ? ' · ' + r.type : ''}
+                        ${r.doctor ? ' · 👨‍⚕️ ' + r.doctor : ''}
+                    </div>
+                    ${r.notes ? `<div class="record-meta" style="margin-top:4px; color:#555;">${r.notes}</div>` : ''}
+                </div>
+                <div class="record-actions">
+                    <button class="icon-btn" onclick="deleteRecord(${r.id})" title="Delete">🗑️</button>
+                </div>
+            </div>`).join('');
+    }
+
+    // ─── MEDICINE REMINDERS + ALARM SYSTEM ───────────────────────────────────
+    let alarmInterval = null;
+    let activeAlarmAudio = null;
+    let snoozeUntil = null;
+    let currentAlarmId = null;
+
+    // ── Web Audio alarm sound (no external file needed) ──
+    function playAlarmSound() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            function beep(freq, start, dur) {
+                const osc  = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
+                gain.gain.setValueAtTime(0, ctx.currentTime + start);
+                gain.gain.linearRampToValueAtTime(0.6, ctx.currentTime + start + 0.05);
+                gain.gain.linearRampToValueAtTime(0, ctx.currentTime + start + dur);
+                osc.start(ctx.currentTime + start);
+                osc.stop(ctx.currentTime + start + dur + 0.05);
+            }
+            // Cheerful alarm pattern
+            [0, 0.35, 0.7, 1.1, 1.45, 1.8].forEach((t, i) => {
+                beep(i % 2 === 0 ? 880 : 1047, t, 0.28);
+            });
+            activeAlarmAudio = ctx;
+        } catch(e) { console.warn('Audio not available', e); }
+    }
+
+    function stopAlarmSound() {
+        try { if (activeAlarmAudio) { activeAlarmAudio.close(); activeAlarmAudio = null; } } catch(e){}
+    }
+
+    // ── Notification permission ──
+    function requestNotifPermission() {
+        if (!('Notification' in window)) { alert('Notifications not supported on this browser.'); return; }
+        Notification.requestPermission().then(p => {
+            document.getElementById('alarm-permission-banner').style.display = 'none';
+            if (p === 'granted') showToast('✅ Notifications enabled! Alarms will work in background.');
+            else showToast('⚠️ Notification denied. In-app alarm will still work.');
+        });
+    }
+
+    function showBrowserNotif(medicine) {
+        if (Notification.permission === 'granted') {
+            new Notification('💊 Medicine Time!', {
+                body: `Take ${medicine.name}${medicine.dose ? ' — ' + medicine.dose : ''}${medicine.instructions ? '\n' + medicine.instructions : ''}`,
+                icon: 'https://cdn-icons-png.flaticon.com/512/2913/2913461.png',
+                tag: 'med-' + medicine.id,
+                renotify: true,
+            });
+        }
+    }
+
+    // ── Show/dismiss alarm popup ──
+    function showAlarmPopup(medicine) {
+        currentAlarmId = medicine.id;
+        document.getElementById('alarm-medicine-name').textContent =
+            '💊 ' + medicine.name + (medicine.dose ? '  ·  ' + medicine.dose : '');
+        document.getElementById('alarm-medicine-info').textContent =
+            (medicine.instructions || '') + (medicine.alarmTime ? '  ⏰ ' + formatTime12(medicine.alarmTime) : '');
+        document.getElementById('alarm-modal').style.display = 'flex';
+        playAlarmSound();
+        showBrowserNotif(medicine);
+    }
+
+    function dismissAlarm() {
+        document.getElementById('alarm-modal').style.display = 'none';
+        stopAlarmSound();
+        // Mark as triggered for today so it doesn't re-fire
+        if (currentAlarmId) markTriggeredToday(currentAlarmId);
+        currentAlarmId = null;
+        snoozeUntil = null;
+    }
+
+    function snoozeAlarm() {
+        document.getElementById('alarm-modal').style.display = 'none';
+        stopAlarmSound();
+        snoozeUntil = Date.now() + 10 * 60 * 1000; // 10 minutes
+        currentAlarmId = null;
+        showToast('⏰ Snoozed for 10 minutes');
+    }
+
+    // ── Track which alarms already fired today ──
+    function getTriggeredToday() {
+        const key = 'triggeredAlarms_' + new Date().toISOString().split('T')[0];
+        return JSON.parse(localStorage.getItem(key) || '[]');
+    }
+    function markTriggeredToday(id) {
+        const key = 'triggeredAlarms_' + new Date().toISOString().split('T')[0];
+        const list = getTriggeredToday();
+        if (!list.includes(id)) { list.push(id); localStorage.setItem(key, JSON.stringify(list)); }
+    }
+
+    // ── Clock checker — runs every 30 seconds ──
+    function startAlarmClock() {
+        if (alarmInterval) clearInterval(alarmInterval);
+        alarmInterval = setInterval(checkAlarms, 30000);
+        checkAlarms(); // run immediately too
+    }
+
+    function checkAlarms() {
+        if (snoozeUntil && Date.now() < snoozeUntil) return; // snoozing
+        if (document.getElementById('alarm-modal').style.display === 'flex') return; // already ringing
+
+        const now     = new Date();
+        const today   = now.toISOString().split('T')[0];
+        const hh      = String(now.getHours()).padStart(2, '0');
+        const mm      = String(now.getMinutes()).padStart(2, '0');
+        const nowTime = hh + ':' + mm;
+
+        const triggered = getTriggeredToday();
+        const meds = getMedicines().filter(m =>
+            m.active &&
+            m.alarmTime &&
+            (!m.end || m.end >= today) &&
+            !triggered.includes(m.id)
+        );
+
+        for (const m of meds) {
+            if (m.alarmTime === nowTime) {
+                showAlarmPopup(m);
+                break; // show one at a time
+            }
+        }
+    }
+
+    // ── Toast notification (in-app) ──
+    function showToast(msg) {
+        let t = document.getElementById('app-toast');
+        if (!t) {
+            t = document.createElement('div');
+            t.id = 'app-toast';
+            t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2d2d3a;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transition:opacity 0.3s;white-space:nowrap;max-width:90vw;text-align:center;';
+            document.body.appendChild(t);
+        }
+        t.textContent = msg;
+        t.style.opacity = '1';
+        clearTimeout(t._timeout);
+        t._timeout = setTimeout(() => { t.style.opacity = '0'; }, 3000);
+    }
+
+    function formatTime12(t24) {
+        if (!t24) return '';
+        const [h, m] = t24.split(':').map(Number);
+        const ampm = h >= 12 ? 'PM' : 'AM';
+        return ((h % 12) || 12) + ':' + String(m).padStart(2,'0') + ' ' + ampm;
+    }
+
+    // ── Notification permission banner visibility ──
+    function checkNotifBanner() {
+        const banner = document.getElementById('alarm-permission-banner');
+        if (!banner) return;
+        if (!('Notification' in window) || Notification.permission === 'granted') {
+            banner.style.display = 'none';
+        } else {
+            banner.style.display = 'block';
+        }
+    }
+
+    // ── Save medicine (updated with alarmTime) ──
+    function saveMedicine() {
+        const name         = document.getElementById('med-name').value.trim();
+        const dose         = document.getElementById('med-dose').value.trim();
+        const time         = document.getElementById('med-time').value;
+        const alarmTime    = document.getElementById('med-alarm-time').value; // HH:MM
+        const start        = document.getElementById('med-start').value;
+        const end          = document.getElementById('med-end').value;
+        const instructions = document.getElementById('med-instructions').value.trim();
+        if (!name) { alert('Please enter a medicine name.'); return; }
+
+        const meds = getMedicines();
+        meds.unshift({ id: Date.now(), name, dose, time, alarmTime, start: start || new Date().toISOString().split('T')[0], end, instructions, active: true });
+        saveMedicines(meds);
+
+        ['med-name','med-dose','med-alarm-time','med-start','med-end','med-instructions'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('med-time').selectedIndex = 0;
+        document.getElementById('medicine-form').classList.remove('open');
+        renderMedicines();
+        showToast('✅ Medicine reminder saved!');
+    }
+
+    function deleteMedicine(id) {
+        if (!confirm('Delete this reminder?')) return;
+        saveMedicines(getMedicines().filter(m => m.id !== id));
+        renderMedicines();
+    }
+
+    function toggleMedicine(id) {
+        const meds = getMedicines();
+        const m = meds.find(m => m.id === id);
+        if (m) m.active = !m.active;
+        saveMedicines(meds);
+        renderMedicines();
+    }
+
+    const timeLabels = { morning: '🌅 Morning', afternoon: '🌞 Afternoon', evening: '🌆 Evening', night: '🌙 Night' };
+
+    function renderMedicines() {
+        checkNotifBanner();
+        const today = new Date().toISOString().split('T')[0];
+        const meds  = getMedicines();
+        const todayMeds = meds.filter(m => m.active && (!m.end || m.end >= today));
+
+        // Today's summary banner
+        const todayDiv = document.getElementById('today-reminders');
+        if (todayMeds.length) {
+            const groups = { morning:[], afternoon:[], evening:[], night:[] };
+            todayMeds.forEach(m => (groups[m.time] || groups.morning).push(m));
+            todayDiv.innerHTML = `<div class="result-card card-green" style="margin-bottom:14px;">
+                <h3 style="margin-bottom:8px;">📅 Today's Medicines</h3>
+                ${Object.entries(groups).filter(([,v])=>v.length).map(([t,list])=>
+                    `<div style="margin-bottom:6px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                        <span class="med-badge ${t}">${timeLabels[t]}</span>
+                        ${list.map(m =>
+                            `<span style="font-size:13px; color:#333;">${m.name}${m.alarmTime ? ' <span style="color:#794bc4; font-weight:700;">⏰ '+formatTime12(m.alarmTime)+'</span>' : ''}</span>`
+                        ).join(' &nbsp;|&nbsp; ')}
+                    </div>`
+                ).join('')}
+            </div>`;
+        } else {
+            todayDiv.innerHTML = '';
+        }
+
+        // All medicines list
+        const list = document.getElementById('medicines-list');
+        if (!meds.length) {
+            list.innerHTML = `<div class="empty-state"><span class="empty-icon">💊</span>No reminders yet.<br>Add your first medicine reminder above.</div>`;
+            return;
+        }
+        list.innerHTML = `<div style="font-weight:700; font-size:13px; color:var(--muted); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">All Reminders</div>` +
+            meds.map(m => {
+                const expired = m.end && m.end < today;
+                return `<div class="record-card medicine-entry" style="opacity:${m.active && !expired ? 1 : 0.5};">
+                    <div class="record-info">
+                        <div class="record-title">💊 ${m.name} ${m.dose ? '· ' + m.dose : ''}</div>
+                        <div style="margin-top:4px; display:flex; flex-wrap:wrap; gap:4px; align-items:center;">
+                            <span class="med-badge ${m.time}">${timeLabels[m.time]}</span>
+                            ${m.alarmTime ? `<span style="background:#ede9fe; color:#5b21b6; font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px;">⏰ ${formatTime12(m.alarmTime)}</span>` : ''}
+                            ${expired ? '<span class="med-badge" style="background:#fee2e2;color:#991b1b;">Expired</span>' : ''}
+                        </div>
+                        <div class="record-meta" style="margin-top:5px;">
+                            ${m.start ? '📅 From ' + m.start : ''}
+                            ${m.end   ? ' → ' + m.end : ''}
+                            ${m.instructions ? '<br>📝 ' + m.instructions : ''}
+                        </div>
+                    </div>
+                    <div class="record-actions">
+                        <button class="icon-btn" onclick="toggleMedicine(${m.id})" title="${m.active ? 'Pause':'Activate'}">${m.active ? '⏸️':'▶️'}</button>
+                        <button class="icon-btn" onclick="deleteMedicine(${m.id})" title="Delete">🗑️</button>
+                    </div>
+                </div>`;
+            }).join('');
+    }
+
+    // ─── INIT MY HEALTH ───────────────────────────────────────────────────────
+    function initMyHealth() { renderRecords(); renderMedicines(); }
+
+    // Start alarm clock when app loads
+    document.addEventListener('DOMContentLoaded', () => { startAlarmClock(); });
 </script>
+
+<style>
+    @keyframes ringBell {
+        from { transform: rotate(-15deg) scale(1.1); }
+        to   { transform: rotate(15deg)  scale(1.2); }
+    }
+</style>
 </body>
 </html>
